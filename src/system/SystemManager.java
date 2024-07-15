@@ -76,7 +76,8 @@ public class SystemManager {
     public void logoff() {
         currentUser = null;
     }
-}
 
-Hello Egor
-        вафаыыа
+    public static void main(String[] args) {
+
+    }
+}
