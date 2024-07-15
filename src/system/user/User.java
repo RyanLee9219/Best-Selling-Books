@@ -12,6 +12,14 @@ public class User {
     private List<Book> bookList = new ArrayList<>();
     private UserPlan plan;
 
+    public UserPlan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(UserPlan plan) {
+        this.plan = plan;
+    }
+
     public String getEmail() {
         return email;
     }

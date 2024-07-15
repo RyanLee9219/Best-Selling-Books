@@ -19,6 +19,7 @@ public class UserList {
         // Implementation here
     }
 
+
     public User findUser(String email, String password) throws UserException {
         for (User user : userList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
