@@ -38,14 +38,12 @@ public class SystemManager {
     }
 
     public void searchInBookList(String keyword) throws BookException {
-        System.out.print("Enter one string for search in the list: ");
-        String sch = input.nextLine().trim();
-        if (sch.isEmpty()) {
+        if (keyword.trim().isEmpty()) {
             System.err.println("Search string cannot be empty.");
             return;
         }
         System.out.println("Results from search ...");
-        bookList.search(sch);
+        bookList.search(keyword);
     }
 
     public void login(String email, String password) throws UserException {
@@ -95,16 +93,47 @@ public class SystemManager {
         currentUser = null;
     }
 
+    public void createBookList() {
+        // Implementation for creating a book list
+    }
+
+    public void saveUserList() {
+        // Implementation for saving the user list to a file
+    }
+
+    public void loadUserList() {
+        // Implementation for loading the user list from a file
+    }
+
+    public void showUserList() {
+        // Implementation for showing the user list
+    }
+
+    public void loginUser(String email, String password) throws UserException {
+        login(email, password);
+    }
+
+    public void changePassword(User user, String newPassword) throws UserException {
+        if (user != null) {
+            user.setPassword(newPassword);
+        } else {
+            throw new UserException("No user is logged in");
+        }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
     public static void main(String[] args) {
         SystemManager manager = new SystemManager();
         Scanner scanner = new Scanner(System.in);
 
         try {
-            // Simulating user interactions in a console-based application
             manager.loadUserList(); // Load user data from file (initial setup)
 
             while (true) {
-                if (manager.currentUser == null) {
+                if (manager.getCurrentUser() == null) {
                     // Admin Menu (Main Menu)
                     System.out.println("=== Admin Menu ===");
                     System.out.println("1. Create Book List");
@@ -189,7 +218,7 @@ public class SystemManager {
                         case 10:
                             System.out.print("Enter keyword to search: ");
                             String keyword = scanner.nextLine();
-                            manager.search(keyword);
+                            manager.searchInBookList(keyword);
                             break;
                         case 11:
                             manager.showBookList();
@@ -197,7 +226,7 @@ public class SystemManager {
                             int bookIndex = scanner.nextInt();
                             scanner.nextLine(); // Consume newline
                             try {
-                                manager.addBookInMyList(manager.getCurrentUser(), bookIndex);
+                                manager.addBookInMyList(bookIndex);
                                 System.out.println("Book added successfully.");
                             } catch (UserException | BookException e) {
                                 System.out.println("Error: " + e.getMessage());
@@ -205,39 +234,31 @@ public class SystemManager {
                             break;
                         case 12:
                             try {
-                                manager.showMyBookList(manager.getCurrentUser());
+                                manager.showMyBookList();
                             } catch (UserException e) {
                                 System.out.println("Error: " + e.getMessage());
                             }
                             break;
                         case 13:
                             try {
-                                manager.showMyBookList(manager.getCurrentUser());
+                                manager.showMyBookList();
                                 System.out.print("Enter index of book to read: ");
                                 int readIndex = scanner.nextInt();
                                 scanner.nextLine(); // Consume newline
-                                try {
-                                    manager.readBook(manager.getCurrentUser(), readIndex);
-                                    System.out.println("Reading book...");
-                                } catch (UserException e) {
-                                    System.out.println("Error: " + e.getMessage());
-                                }
+                                manager.readBook(readIndex);
+                                System.out.println("Reading book...");
                             } catch (UserException e) {
                                 System.out.println("Error: " + e.getMessage());
                             }
                             break;
                         case 14:
                             try {
-                                manager.showMyBookList(manager.getCurrentUser());
+                                manager.showMyBookList();
                                 System.out.print("Enter index of book to download: ");
                                 int downloadIndex = scanner.nextInt();
                                 scanner.nextLine(); // Consume newline
-                                try {
-                                    manager.downloadBook(manager.getCurrentUser(), downloadIndex);
-                                    System.out.println("Downloading book...");
-                                } catch (UserException e) {
-                                    System.out.println("Error: " + e.getMessage());
-                                }
+                                manager.downloadBook(downloadIndex);
+                                System.out.println("Downloading book...");
                             } catch (UserException e) {
                                 System.out.println("Error: " + e.getMessage());
                             }
@@ -266,9 +287,5 @@ public class SystemManager {
         } finally {
             scanner.close();
         }
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 }
