@@ -8,6 +8,15 @@ import system.user.User;
 import system.user.UserList;
 
 public class SystemManager {
+    private final int OPTION1_CRT = 1;
+    private final int OPTION2_LST = 2;
+    private final int OPTION3_ADD = 3;
+    private final int OPTION4_EDT = 4;
+    private final int OPTION5_DEL = 5;
+    private final int OPTION6_SAV = 6;
+    private final int OPTION7_SRC = 7;
+    private final int OPTION8_EXT = 8;
+
     private User currentUser;
     private UserList userList;
     private BookList bookList;
