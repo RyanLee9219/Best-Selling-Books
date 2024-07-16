@@ -64,10 +64,12 @@ public class UserList {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        String result = "USER LIST ............ \n";
         for (User user : userList) {
-            sb.append(user.toString()).append("\n");
+            result += user.toString() + "\n";
         }
-        return sb.toString();
+        return result;
     }
+
+
 }

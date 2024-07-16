@@ -191,9 +191,9 @@ public class SystemManager {
         userList.loadUserList(csvFile);
     }
 
-//    public void showUserList() {
-//        userList.showUserList();
-//    }
+    public void showUserList(){
+        System.out.println(userList);
+    }
 
     public void loginUser() throws UserException {
         System.out.print("Enter email: ");
@@ -273,9 +273,9 @@ public class SystemManager {
                         case OPTION4_CRT_USER:
                             createUser();
                             break;
-                        // case OPTION5_SHOW_USER:
-                        //     showUserList();
-                        //     break;
+                         case OPTION5_SHOW_USER:
+                             showUserList();
+                             break;
                         case OPTION6_SAVE_USER_LIST:
                             System.out.print("Enter the file name to save user list: ");
                             String saveFileName = input.nextLine().trim();
