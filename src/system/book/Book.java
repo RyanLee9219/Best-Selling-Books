@@ -12,7 +12,6 @@ public class Book implements BookDownloadable,BookReadable{
     private int firstPublished;
     private float milionsales;
     private String genre;
-    private int fiveStarReview;
     private String[] title;
 
     /**
@@ -109,19 +108,22 @@ public class Book implements BookDownloadable,BookReadable{
         this.genre = genre;
     }
 
+    public String[] getTitle() {
+        return title;
+    }
 
     /**
      * @return
      */
     @Override
     public String toString() {
-        return "Book [" + index + "],{" +
-                "Book='" + name + '\'' +
-                ", Author(s)='" + author + '\'' +
-                ", Original language='" + orignialLanguage + '\'' +
-                ", First published=" + firstPublished +
-                ", Approximate sales in millions=" + milionsales +
-                ", Genre='" + genre + '\'' +
+        return "Book [" + getIndex() + "],{" +
+                "Book='" + getName() + '\'' +
+                ", Author(s)='" + getAuthor() + '\'' +
+                ", Original language='" + getOrignialLanguage() + '\'' +
+                ", First published=" + getFirstPublished() +
+                ", Approximate sales in millions=" + getMilionsales() +
+                ", Genre='" + getGenre() + '\'' +
                 '}';
     }
 
@@ -134,4 +136,34 @@ public class Book implements BookDownloadable,BookReadable{
     public boolean read(User user) {
         return false;
     }
+
+    public static Book createBook(String... params)  {
+
+        if (params.length != 7) {
+            try {
+                throw new BookException("Invalid number of parameters to create book list");
+            } catch (BookException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for (String param : params) {
+            if (!SystemUtil.isValid(param)) {
+                try {
+                    throw new BookException("Invalid parameter value.");
+                } catch (BookException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        int index = Integer.parseInt(params[0]);
+        String name = params[1];
+        String author = params[2];
+        String originalLanguage = params[3];
+        int firstPublished = Integer.parseInt(params[4]);
+        float millionSales = Float.parseFloat(params[5]);
+        String genre = params[6];
+
+        return new Book(index, name, author, originalLanguage, firstPublished, millionSales,genre);
+    }
+
 }

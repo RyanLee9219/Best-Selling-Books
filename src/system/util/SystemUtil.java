@@ -7,28 +7,36 @@ import java.util.ArrayList;
 
 public class SystemUtil {
 
-    /**
-     * Reads the content of a file and converts it into an array of Strings.
-     * @param filePath the path to the file to be read
-     * @return an ArrayList of Strings, each representing a line in the file
-     * @throws IOException if an I/O error occurs
-     */
-    public static ArrayList<String> lineReader(String filePath) throws IOException {
-        ArrayList<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
+    public static String[] lineReader(String line) {
+        final int NUMCOLS = 6;
+        String[] str = new String[NUMCOLS];
+        int index = 0;
+        final char chComma = ',';
+        final char chQuotes = '"';
+        int start = 0;
+        int end = line.indexOf(chComma);
+        String value;
+        while (start < end) {
+            if (line.charAt(start) == chQuotes) {
+                start++;
+                end = line.indexOf(chQuotes, start + 1);
             }
+            value = line.substring(start, end);
+            value = value.trim();
+            str[index++] = value;
+            if (line.charAt(end) == chQuotes)
+                start = end + 2;
+            else
+                start = end + 1;
+            end = line.indexOf(chComma, start + 1);
         }
-        return lines;
+        if (start < line.length()) {
+            value = line.substring(start);
+            str[index++] = value;
+        }
+        return str;
     }
 
-    /**
-     * Checks if a String is valid (i.e., it is not null, not empty, or blank).
-     * @param str the String to be validated
-     * @return true if the String is valid, false otherwise
-     */
     public static boolean isValid(String str) {
         return str != null && !str.trim().isEmpty();
     }

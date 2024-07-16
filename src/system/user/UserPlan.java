@@ -1,22 +1,61 @@
 package system.user;
 
 public class UserPlan {
-    public enum PlanType { TRIAL, PREMIUM, STANDARD, VIP }
-    private PlanType planType;
+    public enum PlanType { TRIAL, STANDARD, VIP }
+
+    private PlanType type;
     private boolean isActive;
 
-    public UserPlan(PlanType planType, boolean isActive) {
-        this.planType = planType;
+    public UserPlan(PlanType type, boolean isActive) {
+        this.type = type;
         this.isActive = isActive;
     }
 
-    public static UserPlan createPlan(String planType, String isActive) throws Exception {
-        PlanType pt = PlanType.valueOf(planType.toUpperCase());
+    public static UserPlan createPlan(String planType, String isActive) {
+        PlanType type;
+        switch (planType.toLowerCase()) {
+            case "trial":
+                type = PlanType.TRIAL;
+                break;
+            case "standard":
+                type = PlanType.STANDARD;
+                break;
+            case "vip":
+                type = PlanType.VIP;
+                break;
+            default:
+                try {
+                    throw new Exception("Invalid plan type: " + planType);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+        }
+
         boolean active = Boolean.parseBoolean(isActive);
-        return new UserPlan(pt, active);
+        return new UserPlan(type, active);
+    }
+
+    public PlanType getType() {
+        return type;
+    }
+
+    public void setType(PlanType type) {
+        this.type = type;
     }
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPlan{" +
+                "type=" + getType() +
+                ", isActive=" + isActive() +
+                '}';
     }
 }
