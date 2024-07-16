@@ -141,12 +141,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
+        return "User :" +
+                "email='" + getEmail() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 ", bookList=" + bookList +
-                ", plan=" + plan +
-                '}';
+                ", plan=" + getPlan();
     }
 
     public int getBookListSize() {

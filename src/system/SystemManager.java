@@ -10,6 +10,7 @@ import system.user.UserPlan;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SystemManager {
@@ -104,7 +105,10 @@ public class SystemManager {
     }
 
     public void exit() {
-        currentUser = null;
+        System.out.println("================================");
+        System.out.println("|| [Application ended] ||");
+        System.out.println("================================");
+
     }
 
     public void addBookInMyList() throws UserException, BookException {
@@ -246,22 +250,16 @@ public class SystemManager {
         System.out.println("=======================");
         System.out.print("Choose an option: ");
     }
-
-    public static void main(String[] args) {
-        SystemManager systemManager = new SystemManager();
-        systemManager.run();
-    }
-
-    public void run() {
+    public void runMenu() {
         boolean exit = false;
 
         while (!exit) {
             if (currentUser == null) {
                 showAdminMenu();
-                int option = input.nextInt();
-                input.nextLine(); // Consume newline left-over
-
                 try {
+                    int option = input.nextInt();
+                    input.nextLine(); // Consume newline left-over
+
                     switch (option) {
                         case OPTION1_CRT:
                             createBookList();
@@ -275,9 +273,9 @@ public class SystemManager {
                         case OPTION4_CRT_USER:
                             createUser();
                             break;
-//                        case OPTION5_SHOW_USER:
-//                            showUserList();
-//                            break;
+                        // case OPTION5_SHOW_USER:
+                        //     showUserList();
+                        //     break;
                         case OPTION6_SAVE_USER_LIST:
                             System.out.print("Enter the file name to save user list: ");
                             String saveFileName = input.nextLine().trim();
@@ -293,19 +291,23 @@ public class SystemManager {
                             break;
                         case OPTION9_EXT:
                             exit = true;
+                            exit();
                             break;
                         default:
                             System.out.println("Invalid option. Please choose a valid option.");
                     }
+                } catch (InputMismatchException e) {
+                    System.err.println("Invalid input. Please enter a number.");
+                    input.nextLine(); // Clear the invalid input
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             } else {
                 showUserMenu();
-                int option = input.nextInt();
-                input.nextLine(); // Consume newline left-over
-
                 try {
+                    int option = input.nextInt();
+                    input.nextLine();
+
                     switch (option) {
                         case OPTION10_SRC:
                             searchInBookList();
@@ -331,10 +333,20 @@ public class SystemManager {
                         default:
                             System.out.println("Invalid option. Please choose a valid option.");
                     }
+                } catch (InputMismatchException e) {
+                    System.err.println("Invalid input. Please enter a number.");
+                    input.nextLine(); // Clear the invalid input
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
         }
+    }
+
+
+    public static void main(String[] args) {
+        SystemManager systemManager = new SystemManager();
+
+        systemManager.runMenu();
     }
 }
