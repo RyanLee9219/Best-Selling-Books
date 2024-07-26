@@ -97,35 +97,24 @@ public class Book implements BookDownloadable,BookReadable{
 
     @Override
     public boolean read(User user) {
-        return false;
+        return true;
     }
 
-    public static Book createBook(String... params)  {
-
-        if (params.length != 7) {
-            try {
-                throw new BookException("Invalid number of parameters to create book list");
-            } catch (BookException e) {
-                throw new RuntimeException(e);
-            }
+    public static Book createBook(String index, String name, String author, String originalLanguage, String firstPublished, String millionsales, String genre) {
+        if (index == null || name == null || author == null || originalLanguage == null || genre == null ||
+            index.isEmpty() || name.isEmpty() || author.isEmpty() || originalLanguage.isEmpty() || genre.isEmpty()) {
+            return null;
         }
-        for (String param : params) {
-            if (!SystemUtil.isValid(param)) {
-                try {
-                    throw new BookException("Invalid parameter value.");
-                } catch (BookException e) {
-                }
-            }
-        }
-        int index = Integer.parseInt(params[0]);
-        String name = params[1];
-        String author = params[2];
-        String originalLanguage = params[3];
-        int firstPublished = Integer.parseInt(params[4]);
-        float millionSales = Float.parseFloat(params[5]);
-        String genre = params[6];
 
-        return new Book(index, name, author, originalLanguage, firstPublished, millionSales,genre);
+        try {
+            int indexValue = Integer.parseInt(index);
+            int firstPublishedValue = Integer.parseInt(firstPublished);
+            float millionsalesValue = Float.parseFloat(millionsales);
+            return new Book(indexValue, name, author, originalLanguage, firstPublishedValue, millionsalesValue, genre);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
+
 
 }

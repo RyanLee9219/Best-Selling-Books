@@ -54,8 +54,26 @@ public class User {
     }
 
     public static User createUser(String... params) {
-        if (params.length != 4) {
-            throw new RuntimeException(new UserException("Invalid number of parameters"));
+        if (params.length < 4) {
+            String email = "";
+            String password = "";
+            String planType = "trial";
+            String activation = "true";
+
+            if (params.length > 0) {
+                email = params[0];
+            }
+            if (params.length > 1) {
+                password = params[1];
+            }
+            if (params.length > 2) {
+                planType = params[2];
+            }
+            if (params.length > 3) {
+                activation = params[3];
+            }
+
+            return createUserWithDefaults(email, password, planType, activation);
         }
 
         String email = params[0];
@@ -64,21 +82,54 @@ public class User {
         String activation = params[3];
 
         if (!SystemUtil.isValid(email) || !SystemUtil.isValid(password)) {
-            throw new RuntimeException(new UserException("Invalid email or password"));
+            return null;
         }
 
-        try {
-            UserPlan plan = UserPlan.createPlan(planType, activation);
-            boolean isActive = Boolean.parseBoolean(activation);
-            return new User(email, password, plan, isActive);
-        } catch (Exception e) {
-            throw new RuntimeException(new UserException("Invalid plan parameters"));
+        UserPlan plan = UserPlan.createPlan(planType, activation);
+        if (plan == null) {
+            return null;
         }
+
+        boolean isActive;
+        try {
+            isActive = Boolean.parseBoolean(activation);
+        } catch (Exception e) {
+            return null;
+        }
+
+        return new User(email, password, plan, isActive);
     }
+
+    
+    private static User createUserWithDefaults(String email, String password, String planType, String activation) {
+        if (!SystemUtil.isValid(email) || !SystemUtil.isValid(password)) {
+            return null;
+        }
+
+        UserPlan plan = UserPlan.createPlan(planType, activation);
+        if (plan == null) {
+            return null;
+        }
+
+        boolean isActive;
+        try {
+            isActive = Boolean.parseBoolean(activation);
+        } catch (Exception e) {
+            System.out.println("잘못된 활성화 값: " + activation);
+            return null;
+        }
+
+        return new User(email, password, plan, isActive);
+    }
+
+
 
     public void addToBookList(Book book) {
         if (!plan.isActive()) {
             throw new RuntimeException(new UserException("User is not active"));
+        }
+        if (book == null) {
+            throw new IllegalArgumentException("Null");
         }
         bookList.add(book);
     }
@@ -123,7 +174,7 @@ public class User {
     public void saveBookList(String filePath) throws UserException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Book book : bookList) {
-                writer.write(String.format("%s,%s,%s,%s,%d,%.2f,%s",
+                writer.write(String.format("%d,%s,%s,%s,%d,%.2f,%s",
                         book.getIndex(),
                         book.getName(),
                         book.getAuthor(),
@@ -143,7 +194,6 @@ public class User {
     public String toString() {
         return "Email: " + email + ", Plan: " + plan.getType().toString().toLowerCase() + ", IsActive: " + plan.isActive();
     }
-
 
     public int getBookListSize() {
         return bookList.size();

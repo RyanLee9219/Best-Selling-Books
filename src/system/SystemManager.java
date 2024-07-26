@@ -220,26 +220,25 @@ public class SystemManager {
     }
 
     public static void showAdminMenu() {
-        System.out.println("=======================");
+        System.out.println("================================");
         System.out.println("|| Menu - Mini-System: OOP/A2 ||");
-        System.out.println("=======================");
-        System.out.println("1. Create Book List");
-        System.out.println("2. Show Book List");
-        System.out.println("3. Search in Book List");
+        System.out.println("================================");
+        System.out.println("1. Load Booklist");
+        System.out.println("2. Show Booklist");
+        System.out.println("3. Search in the List");
         System.out.println("4. Create User");
-        System.out.println("5. Show User List");
-        System.out.println("6. Save User List");
-        System.out.println("7. Load User List");
+        System.out.println("5. Show Users");
+        System.out.println("6. Save Users");
+        System.out.println("7. Load Users");
         System.out.println("8. Login User");
         System.out.println("9. Exit");
-        System.out.println("=======================");
         System.out.print("Choose an option: ");
     }
 
     public static void showUserMenu() {
-        System.out.println("=======================");
-        System.out.println("|| User Menu ||");
-        System.out.println("=======================");
+        System.out.println("================================");
+        System.out.println("|| Menu - User .............. ||");
+        System.out.println("================================");
         System.out.println("10. Search in Book List");
         System.out.println("11. Add Book in My List");
         System.out.println("12. Show My Book List");

@@ -24,14 +24,16 @@ public class UserPlan {
                 type = PlanType.VIP;
                 break;
             default:
-                try {
-                    throw new Exception("Invalid plan type: " + planType);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                return null;
         }
 
-        boolean active = Boolean.parseBoolean(isActive);
+        boolean active;
+        if ("true".equalsIgnoreCase(isActive) || "false".equalsIgnoreCase(isActive)) {
+            active = Boolean.parseBoolean(isActive);
+        } else {
+            return null;
+        }
+
         return new UserPlan(type, active);
     }
 

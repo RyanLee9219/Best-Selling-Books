@@ -18,18 +18,8 @@ public class BookList{
     public BookList() {
     }
 
-    /**
-     * @param line
-     * @return
-     */
 
 
-
-    /**
-     * @param csvFile
-     * @throws BookException
-     * @throws IOException
-     */
     public void loadBookList(String csvFile) throws BookException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;

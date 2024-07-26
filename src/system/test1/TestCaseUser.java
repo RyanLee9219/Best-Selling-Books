@@ -1,4 +1,4 @@
-package system.test;
+package system.test1;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import system.book.Book;
+
 import system.user.UserPlan;
 import system.user.User;
 
@@ -31,7 +32,7 @@ class TestCaseUser {
 		user = User.createUser("", "invalid");
 		assertNull(user);
 		System.out.println("User test3 - Invalid user checked");
-		user = User.createUser("Paulo", "paulo@mail.com");
+		user = User.createUser("paulo@mail.com", "invalid");
 		assertNotNull(user);
 		System.out.println("User test4 - Valid user created");
 		user.setPlan(plan);
